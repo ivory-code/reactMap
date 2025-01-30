@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 
 const useCurrentLocation = () => {
-  const [position, setPosition] = useState(null);
+  const [position, setPosition] = useState([37.5665, 126.978]); // 초기값: 서울 중심부
 
   useEffect(() => {
     if (!navigator.geolocation) {
@@ -18,9 +18,9 @@ const useCurrentLocation = () => {
         console.error("Error getting location", err);
       },
       {
-        enableHighAccuracy: true,
-        timeout: 5000,
-        maximumAge: 0,
+        enableHighAccuracy: true, // GPS 정확도 최적화
+        timeout: 10000, // 10초 안에 위치 요청
+        maximumAge: 1000, // 1초 내 캐시 사용
       }
     );
 
