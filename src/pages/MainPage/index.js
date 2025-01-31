@@ -35,30 +35,55 @@ const ClickableMap = ({ markers, setMarkers }) => {
 const MainPage = () => {
   const [markers, setMarkers] = useState(loadMarkers());
 
-  return (
-    <MapContainer
-      center={[37.5665, 126.978]}
-      zoom={13}
-      style={{ height: "100vh", width: "100%" }}
-    >
-      <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
-      <LocationMarker />
-      <ClickableMap markers={markers} setMarkers={setMarkers} />
+  const resetMarkers = () => {
+    setMarkers([]); // 상태 초기화
+    localStorage.removeItem("markers"); // 로컬 스토리지 초기화
+  };
 
-      {markers.map((marker) => (
-        <React.Fragment key={marker.id}>
-          <Marker
-            position={[marker.lat, marker.lng]}
-            icon={displayCustomIcon("../../assets/smileHeart.png")}
-          />
-          <Circle
-            center={[marker.lat, marker.lng]}
-            radius={300}
-            color={marker.color}
-          />
-        </React.Fragment>
-      ))}
-    </MapContainer>
+  return (
+    <div>
+      <button
+        onClick={resetMarkers}
+        style={{
+          position: "absolute",
+          top: "10px",
+          right: "10px",
+          padding: "10px 15px",
+          background: "#FF5C5C",
+          color: "white",
+          border: "none",
+          borderRadius: "5px",
+          cursor: "pointer",
+          zIndex: 1000, // 지도가 버튼을 덮지 않도록 설정
+        }}
+      >
+        초기화
+      </button>
+
+      <MapContainer
+        center={[37.5665, 126.978]}
+        zoom={13}
+        style={{ height: "100vh", width: "100%" }}
+      >
+        <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
+        <LocationMarker />
+        <ClickableMap markers={markers} setMarkers={setMarkers} />
+
+        {markers.map((marker) => (
+          <React.Fragment key={marker.id}>
+            <Marker
+              position={[marker.lat, marker.lng]}
+              icon={displayCustomIcon("../../assets/smileHeart.png")}
+            />
+            <Circle
+              center={[marker.lat, marker.lng]}
+              radius={300}
+              color={marker.color}
+            />
+          </React.Fragment>
+        ))}
+      </MapContainer>
+    </div>
   );
 };
 
