@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import { Marker, Popup, useMap } from "react-leaflet";
 import useCurrentLocation from "../hooks/useCurrentLocation";
+import { displayCustomIcon } from "../utils/displayCustomIcon";
 
 const LocationMarker = () => {
   const position = useCurrentLocation();
@@ -13,7 +14,10 @@ const LocationMarker = () => {
   }, [position, map]);
 
   return position ? (
-    <Marker position={position}>
+    <Marker
+      position={position}
+      icon={displayCustomIcon("../../assets/smileHeart.png")}
+    >
       <Popup>현재 위치</Popup>
     </Marker>
   ) : null;
